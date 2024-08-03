@@ -27,8 +27,7 @@ func (s *Server) acceptLoop() {
 			continue
 		}
 
-		fmt.Println("new connection from server", conn.RemoteAddr())
-
+		fmt.Println("new connection to", conn.RemoteAddr())
 		go s.readLoop(conn)
 	}
 }
@@ -38,12 +37,13 @@ func (s *Server) readLoop(conn net.Conn) {
 	for {
 		n, err := conn.Read(buf)
 		if err != nil {
-			fmt.Println("read error:", err)
-			continue
+			fmt.Printf("Close connection with %s\n", conn.RemoteAddr())
+			break
 		}
 
 		msg := buf[:n]
 		fmt.Printf("%s: %s\n", conn.RemoteAddr(), string(msg))
+		conn.Write([]byte(fmt.Sprintf("Received --> %s\n", string(msg))))
 	}
 }
 
@@ -64,5 +64,4 @@ func (s *Server) Start() error {
 func main() {
 	server := NewServer(":8000")
 	log.Fatal(server.Start())
-
 }
