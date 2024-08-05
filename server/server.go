@@ -1,8 +1,7 @@
-package main
+package server
 
 import (
 	"fmt"
-	"log"
 	"net"
 )
 
@@ -65,8 +64,8 @@ func (s *Server) Start() error {
 	return nil
 }
 
-func main() {
-	fmt.Println("Server started")
-	server := NewServer(":8000")
-	log.Fatal(server.Start())
-}
+// func main() {
+// 	fmt.Println("Server started")
+// 	server := NewServer(":8000")
+// 	log.Fatal(server.Start())
+// }
