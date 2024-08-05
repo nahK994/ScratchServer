@@ -8,13 +8,13 @@ import (
 type Server struct {
 	listenAddr string
 	ln         net.Listener
-	quitch     chan struct{}
+	quitCh     chan struct{}
 }
 
 func NewServer(listenAddr string) *Server {
 	return &Server{
 		listenAddr: listenAddr,
-		quitch:     make(chan struct{}),
+		quitCh:     make(chan struct{}),
 	}
 }
 
@@ -26,8 +26,7 @@ func (s *Server) acceptLoop() {
 			continue
 		}
 
-		msg := fmt.Sprintln("new connection to", conn.RemoteAddr())
-		conn.Write([]byte(msg))
+		fmt.Printf("new connection to %s\n", conn.RemoteAddr())
 		go s.readLoop(conn)
 	}
 }
@@ -40,7 +39,7 @@ func (s *Server) readLoop(conn net.Conn) {
 		n, err := conn.Read(buf)
 		if err != nil {
 			fmt.Printf("Close connection with %s\n", conn.RemoteAddr())
-			break
+			<-s.quitCh
 		}
 
 		fmt.Printf("%s: %s", conn.RemoteAddr(), string(buf[:n]))
@@ -59,7 +58,6 @@ func (s *Server) Start() error {
 
 	s.ln = ln
 	s.acceptLoop()
-	<-s.quitch
 
 	return nil
 }
