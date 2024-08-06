@@ -4,6 +4,7 @@ import (
 	"fmt"
 	"log"
 	"net"
+	"strings"
 )
 
 type node struct {
@@ -34,7 +35,7 @@ func newNode(conn net.Conn) (*node, error) {
 		return nil, err
 	}
 
-	bufStr := string(buf[:n])
+	bufStr := strings.TrimSpace(string(buf[:n]))
 	node := node{
 		name: bufStr,
 		Conn: conn,
