@@ -43,6 +43,16 @@ func newNode(conn net.Conn) (*node, error) {
 	return &node, nil
 }
 
+func broadcast(sender node, msg string) {
+	for i := 0; i < len(nodes); i++ {
+		if nodes[i].RemoteAddr() == sender.RemoteAddr() {
+			continue
+		}
+		writingText := fmt.Sprintf("%s: %s\n", sender.name, msg)
+		nodes[i].Write([]byte(writingText))
+	}
+}
+
 func (s *Server) acceptLoop() {
 	for {
 		conn, err := s.ln.Accept()
@@ -68,8 +78,7 @@ func (s *Server) readLoop(node node) {
 	buf := make([]byte, 2048)
 	conn := node.Conn
 	name := node.name
-	msg := fmt.Sprintf("%s: ", node.name)
-	conn.Write([]byte(msg))
+
 	for {
 		n, err := conn.Read(buf)
 		if err != nil {
@@ -78,9 +87,7 @@ func (s *Server) readLoop(node node) {
 		}
 
 		fmt.Printf("%s: %s", name, string(buf[:n]))
-		// receivedMsg := fmt.Sprintf("Received --> %s", string(buf[:n]))
-		// conn.Write([]byte(receivedMsg))
-		conn.Write([]byte(msg))
+		broadcast(node, string(buf[:n]))
 	}
 }
 
