@@ -33,19 +33,14 @@ func (s *Server) acceptLoop() {
 
 func (s *Server) readLoop(conn net.Conn) {
 	buf := make([]byte, 2048)
-	msg := fmt.Sprintf("%s: ", conn.RemoteAddr())
-	conn.Write([]byte(msg))
+
 	for {
 		n, err := conn.Read(buf)
 		if err != nil {
 			fmt.Printf("Close connection with %s\n", conn.RemoteAddr())
 			<-s.QuitCh
 		}
-
 		fmt.Printf("%s: %s", conn.RemoteAddr(), string(buf[:n]))
-		receivedMsg := fmt.Sprintf("Received --> %s", string(buf[:n]))
-		conn.Write([]byte(receivedMsg))
-		conn.Write([]byte(msg))
 	}
 }
 
