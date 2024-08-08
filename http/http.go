@@ -4,6 +4,8 @@ import (
 	"fmt"
 	"log"
 	"net"
+
+	"github.com/nahK994/ScratchServer/http/handlers"
 )
 
 type Server struct {
@@ -51,7 +53,8 @@ func (s *Server) readLoop(conn net.Conn) {
 		return
 	}
 
-	fmt.Printf("%s: %s", conn.RemoteAddr(), string(buf[:n]))
+	// fmt.Printf("%s: %s", conn.RemoteAddr(), string(buf[:n]))
+	handlers.HandleRequest(string(buf[:n]))
 	handleGetRequest(conn)
 	fmt.Printf("connection closed with %s\n", conn.RemoteAddr())
 }
