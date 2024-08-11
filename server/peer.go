@@ -2,6 +2,7 @@ package server
 
 import (
 	"fmt"
+	"log/slog"
 	"net"
 )
 
@@ -12,6 +13,16 @@ type Peer struct {
 func NewPeer(conn net.Conn) *Peer {
 	return &Peer{
 		conn: conn,
+	}
+}
+
+func (peer *Peer) handleConn() {
+
+	slog.Info("new peer connected", "remoteAddr", peer.conn.RemoteAddr())
+
+	if err := peer.readConn(); err != nil {
+		slog.Error("peer read error", "err", err, "remoteAddr", peer.conn.RemoteAddr())
+		peer.conn.Close()
 	}
 }
 

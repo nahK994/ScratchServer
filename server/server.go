@@ -31,7 +31,7 @@ func (s *Server) acceptConn() error {
 
 		peer := NewPeer(conn)
 		s.peers[peer] = true
-		go handleConn(peer)
+		go peer.handleConn()
 	}
 }
 
@@ -42,18 +42,9 @@ func (s *Server) Start() error {
 	}
 
 	s.ln = ln
+	defer ln.Close()
 
 	slog.Info("server running", "listenAddr", s.ListenAddress)
 
 	return s.acceptConn()
-}
-
-func handleConn(peer *Peer) {
-
-	slog.Info("new peer connected", "remoteAddr", peer.conn.RemoteAddr())
-
-	if err := peer.readConn(); err != nil {
-		slog.Error("peer read error", "err", err, "remoteAddr", peer.conn.RemoteAddr())
-		peer.conn.Close()
-	}
 }
