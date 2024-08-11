@@ -33,6 +33,7 @@ go run main.go
 - **`main.go`**: The entry point of the server.
 - **`server/`**: Contains the server logic and connection handling.
 - **`handlers/`**: Contains command parsing and handling logic.
+- **`models/`**: Contains structure of data.
 
 ## 📈 Roadmap
 
