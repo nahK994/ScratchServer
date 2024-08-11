@@ -6,18 +6,16 @@ import (
 )
 
 type Peer struct {
-	conn  net.Conn
-	msgCh chan []byte
+	conn net.Conn
 }
 
-func NewPeer(conn net.Conn, msgCh chan []byte) *Peer {
+func NewPeer(conn net.Conn) *Peer {
 	return &Peer{
-		conn:  conn,
-		msgCh: msgCh,
+		conn: conn,
 	}
 }
 
-func (p *Peer) readLoop() error {
+func (p *Peer) readConn() error {
 	buf := make([]byte, 1024)
 	for {
 		n, err := p.conn.Read(buf)
@@ -28,7 +26,5 @@ func (p *Peer) readLoop() error {
 		copy(msgBuf, buf[:n])
 		msg := fmt.Sprintf("server received -> %s", string(msgBuf))
 		p.conn.Write([]byte(msg))
-
-		p.msgCh <- msgBuf
 	}
 }
