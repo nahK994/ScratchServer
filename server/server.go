@@ -31,7 +31,7 @@ func (s *Server) acceptConn() error {
 
 		peer := NewPeer(conn)
 		s.peers[peer] = true
-		go peer.handleConn()
+		go peer.readConn()
 	}
 }
 

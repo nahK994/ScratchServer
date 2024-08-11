@@ -4,6 +4,8 @@ import (
 	"fmt"
 	"log/slog"
 	"net"
+
+	"github.com/nahK994/ScratchServer/handlers"
 )
 
 type Peer struct {
@@ -16,26 +18,19 @@ func NewPeer(conn net.Conn) *Peer {
 	}
 }
 
-func (peer *Peer) handleConn() {
-
-	slog.Info("new peer connected", "remoteAddr", peer.conn.RemoteAddr())
-
-	if err := peer.readConn(); err != nil {
-		slog.Error("peer read error", "err", err, "remoteAddr", peer.conn.RemoteAddr())
-		peer.conn.Close()
-	}
-}
-
-func (p *Peer) readConn() error {
+func (p *Peer) readConn() {
 	buf := make([]byte, 1024)
 	for {
 		n, err := p.conn.Read(buf)
 		if err != nil {
-			return err
+			slog.Error("peer read error", "err", err, "remoteAddr", p.conn.RemoteAddr())
+			p.conn.Close()
+			return
 		}
-		msgBuf := make([]byte, n)
-		copy(msgBuf, buf[:n])
-		msg := fmt.Sprintf("server received -> %s", string(msgBuf))
+		msg := fmt.Sprintf("server received -> %s", string(buf[:n]))
 		p.conn.Write([]byte(msg))
+
+		request := handlers.HandleRequest(buf[:n])
+		fmt.Println("Final ==>", request)
 	}
 }
