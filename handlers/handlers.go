@@ -1,6 +1,8 @@
 package handlers
 
 import (
+	"fmt"
+	"net"
 	"strings"
 
 	"github.com/nahK994/ScratchServer/models"
@@ -14,10 +16,24 @@ func HandleRequest(req []byte) *models.Request {
 		UrlPath: aa[1],
 		Body:    cmdLines[len(cmdLines)-1],
 	}
+}
 
-	// fmt.Println("1...", cmdLines[0])
-	// fmt.Println("2...", cmdLines[len(cmdLines)-1])
-	// var test LoginReq
-	// json.Unmarshal([]byte(cmdLines[len(cmdLines)-1]), &test)
-	// fmt.Println("Final ==> ", test)
+func HandleResponse(conn net.Conn) {
+	statusCode := 200
+	statusText := "OK"
+	responseBody := "Hello, World!"
+	contentLength := len(responseBody)
+	contentType := "text/plain"
+	// contentType := "application/json"
+
+	response := fmt.Sprintf(
+		"HTTP/1.1 %d %s\r\n"+
+			"Content-Type: %s\r\n"+
+			"Content-Length: %d\r\n"+
+			"\r\n"+
+			"%s",
+		statusCode, statusText, contentType, contentLength, responseBody,
+	)
+	fmt.Println(response)
+	conn.Write([]byte(response))
 }
