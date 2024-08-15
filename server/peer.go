@@ -1,11 +1,11 @@
 package server
 
 import (
-	"fmt"
 	"log/slog"
 	"net"
 
 	"github.com/nahK994/ScratchServer/handlers"
+	"github.com/nahK994/ScratchServer/utils"
 )
 
 type Peer struct {
@@ -28,6 +28,7 @@ func (p *Peer) readConn() {
 	}
 
 	request := handlers.HandleRequest(buf[:n])
-	fmt.Println("Request from", p.conn.RemoteAddr(), " ==>", request)
+	//fmt.Println("Request from", p.conn.RemoteAddr(), " ==>", request)
+	utils.RouteMapper[request.UrlPath](*request)
 	handlers.HandleResponse(p.conn)
 }
