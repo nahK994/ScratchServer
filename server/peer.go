@@ -1,10 +1,12 @@
 package server
 
 import (
+	"log"
 	"log/slog"
 	"net"
 
 	"github.com/nahK994/ScratchServer/handlers"
+	"github.com/nahK994/ScratchServer/models"
 	"github.com/nahK994/ScratchServer/utils"
 )
 
@@ -28,7 +30,13 @@ func (p *Peer) readConn() {
 	}
 
 	request := handlers.HandleRequest(buf[:n])
-	//fmt.Println("Request from", p.conn.RemoteAddr(), " ==>", request)
-	utils.RouteMapper[request.UrlPath](*request)
+	// fmt.Println("Request from", p.conn.RemoteAddr(), " ==>", request)
+	requestHandler := utils.RouteMapper[models.HttpUrlPath(request.UrlPath)]
+	if requestHandler.Method != request.Method {
+		log.Fatal("Mothod not allowd")
+	} else {
+		requestHandler.Func(*request)
+	}
 	handlers.HandleResponse(p.conn)
+	p.conn.Close()
 }

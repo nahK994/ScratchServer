@@ -3,6 +3,9 @@ package server
 import (
 	"log/slog"
 	"net"
+
+	"github.com/nahK994/ScratchServer/models"
+	"github.com/nahK994/ScratchServer/utils"
 )
 
 type Config struct {
@@ -47,4 +50,11 @@ func (s *Server) Start() error {
 	slog.Info("server running", "listenAddr", s.ListenAddress)
 
 	return s.acceptConn()
+}
+
+func RegisterHandleFunc(urlPath models.HttpUrlPath, method string, handler models.HandleHttpFunc) {
+	utils.RouteMapper[urlPath] = models.HandlerDetails{
+		Method: method,
+		Func:   handler,
+	}
 }

@@ -6,15 +6,14 @@ import (
 
 	"github.com/nahK994/ScratchServer/models"
 	"github.com/nahK994/ScratchServer/server"
-	"github.com/nahK994/ScratchServer/utils"
 )
 
 func main() {
 	srv := server.NewServer(server.Config{
 		ListenAddress: "127.0.0.1:8000",
 	})
-	utils.RouteMapper["/login"] = func(r models.Request) {
-		fmt.Println("TEST =====>", r.Body)
-	}
+	server.RegisterHandleFunc("/login", "POST", func(r models.Request) {
+		fmt.Println("TEST ===>", r.Body)
+	})
 	log.Fatal(srv.Start())
 }
