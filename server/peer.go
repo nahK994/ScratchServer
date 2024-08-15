@@ -35,8 +35,9 @@ func (p *Peer) readConn() {
 	if requestHandler.Method != request.Method {
 		log.Fatal("Mothod not allowd")
 	} else {
-		requestHandler.Func(*request)
+		// TODO: Method not allowed handler
 	}
-	handlers.HandleResponse(p.conn)
+	response := new(models.Response)
+	handlers.HandleResponse(response, p.conn)
 	p.conn.Close()
 }

@@ -1,11 +1,13 @@
 package handlers
 
 import (
+	"encoding/json"
 	"fmt"
 	"net"
 	"strings"
 
 	"github.com/nahK994/ScratchServer/models"
+	"github.com/nahK994/ScratchServer/utils"
 )
 
 func HandleRequest(req []byte) *models.Request {
@@ -18,15 +20,30 @@ func HandleRequest(req []byte) *models.Request {
 	}
 }
 
-func HandleResponse(conn net.Conn) {
-	statusCode := 200
-	statusText := "OK"
-	responseBody := "Hello, World!"
-	contentLength := len(responseBody)
-	contentType := "text/plain"
-	// contentType := "application/json"
+func HandleResponse(response *models.Response, conn net.Conn) {
+	// var data interface{} = map[string]interface{}{
+	// 	"name": "khan",
+	// }
+	// response.StatusCode = 201
+	// response.Body = data
 
-	response := fmt.Sprintf(
+	statusCode := response.StatusCode
+	statusText := utils.StatusText[statusCode]
+
+	var contentLength int
+	var contentType string
+	var responseBody string
+	if body1, ok1 := response.Body.(string); ok1 {
+		contentType = "text/plain"
+		responseBody = body1
+	} else if body2, ok2 := json.Marshal(response.Body); ok2 == nil {
+		contentType = "application/json"
+		responseBody = string(body2)
+	} else {
+		// TODO: implement FUCK
+	}
+	contentLength = len(responseBody)
+	resp := fmt.Sprintf(
 		"HTTP/1.1 %d %s\r\n"+
 			"Content-Type: %s\r\n"+
 			"Content-Length: %d\r\n"+
@@ -34,6 +51,6 @@ func HandleResponse(conn net.Conn) {
 			"%s",
 		statusCode, statusText, contentType, contentLength, responseBody,
 	)
-	fmt.Println(response)
-	conn.Write([]byte(response))
+	// fmt.Println(resp)
+	conn.Write([]byte(resp))
 }
