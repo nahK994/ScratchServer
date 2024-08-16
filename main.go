@@ -14,6 +14,8 @@ func main() {
 	})
 	server.RegisterHandleFunc("/login", "POST", func(r models.Request, w *models.Response) {
 		fmt.Println("TEST ===>", r.Body)
+		w.StatusCode = 201
+		w.Body = r.Body
 	})
 	log.Fatal(srv.Start())
 }

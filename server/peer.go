@@ -1,7 +1,6 @@
 package server
 
 import (
-	"log"
 	"log/slog"
 	"net"
 
@@ -31,13 +30,15 @@ func (p *Peer) readConn() {
 
 	request := handlers.HandleRequest(buf[:n])
 	// fmt.Println("Request from", p.conn.RemoteAddr(), " ==>", request)
+	response := new(models.Response)
 	requestHandler := utils.RouteMapper[models.HttpUrlPath(request.UrlPath)]
 	if requestHandler.Method != request.Method {
-		log.Fatal("Mothod not allowd")
+		// log.Fatal("Mothod not allowd")
+		response.StatusCode = 405
+		response.Body = ""
 	} else {
-		// TODO: Method not allowed handler
+		requestHandler.Func(*request, response)
 	}
-	response := new(models.Response)
 	handlers.HandleResponse(response, p.conn)
 	p.conn.Close()
 }

@@ -10,6 +10,26 @@ import (
 	"github.com/nahK994/ScratchServer/utils"
 )
 
+type content_type string
+type response_body string
+
+func extractResponseBody(body interface{}) (content_type, response_body) {
+	var contentType content_type
+	var responseBody response_body
+
+	if body1, ok1 := body.(string); ok1 {
+		contentType = "text/plain"
+		responseBody = response_body(body1)
+	} else if body2, ok2 := json.Marshal(body); ok2 == nil {
+		contentType = "application/json"
+		responseBody = response_body(body2)
+	} else {
+		// TODO: implement FUCK
+	}
+
+	return contentType, responseBody
+}
+
 func HandleRequest(req []byte) *models.Request {
 	cmdLines := strings.Split(string(req), "\r\n")
 	aa := strings.Split(cmdLines[0], " ")
@@ -21,28 +41,11 @@ func HandleRequest(req []byte) *models.Request {
 }
 
 func HandleResponse(response *models.Response, conn net.Conn) {
-	// var data interface{} = map[string]interface{}{
-	// 	"name": "khan",
-	// }
-	// response.StatusCode = 201
-	// response.Body = data
-
 	statusCode := response.StatusCode
 	statusText := utils.StatusText[statusCode]
+	contentType, responseBody := extractResponseBody(response.Body)
+	contentLength := len(responseBody)
 
-	var contentLength int
-	var contentType string
-	var responseBody string
-	if body1, ok1 := response.Body.(string); ok1 {
-		contentType = "text/plain"
-		responseBody = body1
-	} else if body2, ok2 := json.Marshal(response.Body); ok2 == nil {
-		contentType = "application/json"
-		responseBody = string(body2)
-	} else {
-		// TODO: implement FUCK
-	}
-	contentLength = len(responseBody)
 	resp := fmt.Sprintf(
 		"HTTP/1.1 %d %s\r\n"+
 			"Content-Type: %s\r\n"+
