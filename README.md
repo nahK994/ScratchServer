@@ -1,26 +1,26 @@
-# Scratch TCP Server
+## TCPickle - A Lightweight TCP Server
 
-Welcome to the **Scratch TCP Server** repository! This project is a work in progress and aims to implement a basic TCP server from scratch using Go.
+Welcome to the **TCPickle** repository! This project is a work in progress and aims to implement a basic TCP server from scratch using Go.
 
-## 🚧 Project Status
+### 🚧 Project Status
 
 This project is still in development. Contributions, ideas, and feedback are welcome!
 
-## 🛠️ Features
+### 🛠️ Features
 
 - Accepts multiple client connections.
-- Basic command parsing (more features to be added).
+- Handles basic HTTP methods such as GET and POST.
 - Simple error handling and logging.
 
-## 🚀 Getting Started
+### 🚀 Getting Started
 
-### Prerequisites
+#### Prerequisites
 
 To run this project, you'll need:
 
 - **Go** (version 1.20 or later)
 
-### Running the Server
+#### Running the Server
 
 You can run the server locally using the following command:
 
@@ -28,26 +28,26 @@ You can run the server locally using the following command:
 go run main.go
 ```
 
-## 📂 Project Structure
+### 📂 Project Structure
 
 - **`main.go`**: The entry point of the server.
 - **`server/`**: Contains the server logic and connection handling.
 - **`handlers/`**: Contains command parsing and handling logic.
 - **`models/`**: Contains structure of data.
 
-## 📈 Roadmap
+### 📈 Roadmap
 
-- Improve support for multiple client commands.
+- Handle multiple client requests.
+- Handle basic HTTP methods such as GET and POST.
 - Improve error handling.
-- Implement command parsing capabilities.
 - Implement logging enhancements.
 - Add support for secure connections (TLS).
 
-## 🤝 Contributing
+### 🤝 Contributing
 
 We welcome contributions of all kinds! Whether you're fixing bugs, adding new features, or improving documentation, your input is appreciated.
 
-### How to Contribute
+#### How to Contribute
 
 1. **Fork the repository** to your GitHub account.
 2. **Clone your forked repository** to your local machine:
@@ -72,7 +72,7 @@ We welcome contributions of all kinds! Whether you're fixing bugs, adding new fe
 
 
 
-## 📝 License
+### 📝 License
 
 This project is open-source and available under the MIT License.
 
