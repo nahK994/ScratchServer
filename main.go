@@ -4,8 +4,8 @@ import (
 	"fmt"
 	"log"
 
-	"github.com/nahK994/ScratchServer/models"
-	"github.com/nahK994/ScratchServer/server"
+	"github.com/nahK994/TCPickle/models"
+	"github.com/nahK994/TCPickle/server"
 )
 
 func main() {

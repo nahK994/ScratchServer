@@ -1,6 +1,6 @@
 package utils
 
-import "github.com/nahK994/ScratchServer/models"
+import "github.com/nahK994/TCPickle/models"
 
 var RouteMapper models.RouteMapperType = make(models.RouteMapperType)
 

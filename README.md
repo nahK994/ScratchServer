@@ -53,7 +53,7 @@ We welcome contributions of all kinds! Whether you're fixing bugs, adding new fe
 2. **Clone your forked repository** to your local machine:
 
    ```bash
-   git clone https://github.com/nahK994/ScratchServer.git
+   git clone https://github.com/nahK994/TCPickle.git
    ```
    
 4. **Create a new branch** for your feature or fix:

@@ -4,9 +4,9 @@ import (
 	"log/slog"
 	"net"
 
-	"github.com/nahK994/ScratchServer/handlers"
-	"github.com/nahK994/ScratchServer/models"
-	"github.com/nahK994/ScratchServer/utils"
+	"github.com/nahK994/TCPickle/handlers"
+	"github.com/nahK994/TCPickle/models"
+	"github.com/nahK994/TCPickle/utils"
 )
 
 type Peer struct {

@@ -6,8 +6,8 @@ import (
 	"net"
 	"strings"
 
-	"github.com/nahK994/ScratchServer/models"
-	"github.com/nahK994/ScratchServer/utils"
+	"github.com/nahK994/TCPickle/models"
+	"github.com/nahK994/TCPickle/utils"
 )
 
 type content_type string
