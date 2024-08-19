@@ -45,7 +45,7 @@ func (s *Server) Start() error {
 	return s.acceptConn()
 }
 
-func RegisterHandleFunc(urlPath models.HttpUrlPath, method string, handler models.HandleHttpFunc) {
+func (s *Server) RequestHandler(urlPath models.HttpUrlPath, method string, handler models.HandleHttpFunc) {
 	utils.RouteMapper[urlPath] = models.HandlerDetails{
 		Method: method,
 		Func:   handler,

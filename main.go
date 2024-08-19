@@ -10,7 +10,7 @@ import (
 
 func main() {
 	srv := server.Initiate("127.0.0.1:8000")
-	server.RegisterHandleFunc("/login", "POST", func(r models.Request, w *models.Response) {
+	srv.RequestHandler("/login", "POST", func(r models.Request, w *models.Response) {
 		fmt.Println("TEST ===>", r.Body)
 		w.StatusCode = 201
 		w.Body = r.Body
