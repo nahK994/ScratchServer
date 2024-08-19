@@ -20,20 +20,34 @@ To run this project, you'll need:
 
 - **Go** (version 1.20 or later)
 
-#### Running the Server
+#### How to Use
 
-You can run the server locally using the following command:
+You can easily add this package to your Go project by running the following command:
 
 ```go
-go run main.go
+go get github.com/nahK994/TCPickle
 ```
+
+After installing the package, you can start the server locally in your main.go file with the following code:
+
+```go
+srv := server.Initiate("127.0.0.1:8000")
+srv.RequestHandler("/login", "POST", func(r models.Request, w *models.Response) {
+    fmt.Println("TEST ===>", r.Body)
+    w.StatusCode = 201
+    w.Body = r.Body
+})
+log.Fatal(srv.Start())
+```
+
+You can also check out the complete example in `main.go`.
 
 ### 📂 Project Structure
 
-- **`main.go`**: The entry point of the server.
 - **`server/`**: Contains the server logic and connection handling.
 - **`handlers/`**: Contains command parsing and handling logic.
 - **`models/`**: Contains structure of data.
+- **`utils`**: Containes the utility varialbles, constants.
 
 ### 📈 Roadmap
 
