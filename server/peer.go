@@ -33,7 +33,6 @@ func (p *Peer) readConn() {
 	response := new(models.Response)
 	requestHandler := utils.RouteMapper[models.HttpUrlPath(request.UrlPath)]
 	if requestHandler.Method != request.Method {
-		// log.Fatal("Mothod not allowd")
 		response.StatusCode = 405
 		response.Body = ""
 	} else {

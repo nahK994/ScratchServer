@@ -8,20 +8,14 @@ import (
 	"github.com/nahK994/ScratchServer/utils"
 )
 
-type Config struct {
-	ListenAddress string
-}
-
 type Server struct {
-	Config
-	peers map[*Peer]bool
-	ln    net.Listener
+	ListenAddress string
+	ln            net.Listener
 }
 
-func NewServer(cfg Config) *Server {
+func Initiate(listenAddress string) *Server {
 	return &Server{
-		Config: cfg,
-		peers:  make(map[*Peer]bool),
+		ListenAddress: listenAddress,
 	}
 }
 
@@ -33,7 +27,6 @@ func (s *Server) acceptConn() error {
 		}
 
 		peer := NewPeer(conn)
-		s.peers[peer] = true
 		go peer.readConn()
 	}
 }
