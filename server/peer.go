@@ -19,7 +19,7 @@ func NewPeer(conn net.Conn) *Peer {
 	}
 }
 
-func (p *Peer) readConn() {
+func (p *Peer) readConn(protocol string) {
 	buf := make([]byte, 1024)
 	n, err := p.conn.Read(buf)
 	if err != nil {

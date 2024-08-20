@@ -9,13 +9,15 @@ import (
 )
 
 type Server struct {
-	ListenAddress string
+	listenAddress string
 	ln            net.Listener
+	protocol      string
 }
 
-func Initiate(listenAddress string) *Server {
+func Initiate(listenAddress, protocol string) *Server {
 	return &Server{
-		ListenAddress: listenAddress,
+		listenAddress: listenAddress,
+		protocol:      protocol,
 	}
 }
 
@@ -27,12 +29,12 @@ func (s *Server) acceptConn() error {
 		}
 
 		peer := NewPeer(conn)
-		go peer.readConn()
+		go peer.readConn(s.protocol)
 	}
 }
 
 func (s *Server) Start() error {
-	ln, err := net.Listen("tcp", s.ListenAddress)
+	ln, err := net.Listen("tcp", s.listenAddress)
 	if err != nil {
 		return err
 	}
@@ -40,7 +42,7 @@ func (s *Server) Start() error {
 	s.ln = ln
 	defer ln.Close()
 
-	slog.Info("server running", "listenAddr", s.ListenAddress)
+	slog.Info("server running", "listenAddr", s.listenAddress)
 
 	return s.acceptConn()
 }
