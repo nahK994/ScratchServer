@@ -5,8 +5,6 @@ import (
 	"net"
 
 	"github.com/nahK994/TCPickle/handlers"
-	"github.com/nahK994/TCPickle/models"
-	"github.com/nahK994/TCPickle/utils"
 )
 
 type Peer struct {
@@ -19,7 +17,7 @@ func NewPeer(conn net.Conn) *Peer {
 	}
 }
 
-func (p *Peer) readConn() {
+func (p *Peer) readConn(protocol string) {
 	buf := make([]byte, 1024)
 	n, err := p.conn.Read(buf)
 	if err != nil {
@@ -28,16 +26,8 @@ func (p *Peer) readConn() {
 		return
 	}
 
-	request := handlers.HandleRequest(buf[:n])
-	// fmt.Println("Request from", p.conn.RemoteAddr(), " ==>", request)
-	response := new(models.Response)
-	requestHandler := utils.RouteMapper[models.HttpUrlPath(request.UrlPath)]
-	if requestHandler.Method != request.Method {
-		response.StatusCode = 405
-		response.Body = ""
-	} else {
-		requestHandler.Func(*request, response)
-	}
-	handlers.HandleResponse(response, p.conn)
+	response := handlers.HandleRequest(buf[:n], protocol)
+	resp := handlers.HandleResponse(response, protocol)
+	p.conn.Write([]byte(resp))
 	p.conn.Close()
 }
