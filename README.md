@@ -28,19 +28,35 @@ You can easily add this package to your Go project by running the following comm
 go get github.com/nahK994/TCPickle
 ```
 
-After installing the package, you can start the server locally in your main.go file with the following code:
+After installing the package, you can start the HTTP server locally in your main.go file with the following code:
 
 ```go
-srv := server.Initiate("127.0.0.1:8000")
-srv.RequestHandler("/login", "POST", func(r models.Request, w *models.Response) {
+srv := server.InitiateHttp("127.0.0.1:8000")
+srv.RequestHandler("/post", "POST", func(r models.HttpRequest, w *models.HttpResponse) {
     fmt.Println("TEST ===>", r.Body)
     w.StatusCode = 201
     w.Body = r.Body
 })
+
+srv.RequestHandler("/get", "GET", func(r models.HttpRequest, w *models.HttpResponse) {
+    fmt.Println("TEST ===>", r.Body)
+    w.StatusCode = 200
+    w.Body = "Hello World!!"
+})
 log.Fatal(srv.Start())
 ```
 
-You can also check out the complete example in `main.go`.
+You can also run RESP server by running following codes:
+
+```go
+srv := server.InitiateResp("127.0.0.1:8000")
+srv.RequestHandler(func(request models.RespRequest, response *models.RespResponse) {
+    response.Response = "+OK\r\n"
+})
+log.Fatal(srv.Start())
+```
+
+You can also check out the complete example in `cmd/main.go`.
 
 ### 📂 Project Structure
 

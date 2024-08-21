@@ -11,7 +11,7 @@ import (
 func example_resp() {
 	srv := server.InitiateResp("127.0.0.1:8000")
 	srv.RequestHandler(func(request models.RespRequest, response *models.RespResponse) {
-		response.Response = "+OKKKKK\r\n"
+		response.Response = "+OK\r\n"
 	})
 	log.Fatal(srv.Start())
 }
