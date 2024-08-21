@@ -1,13 +1,13 @@
 package models
 
-type HandleHttpFunc func(request HttpRequest, response *HttpResponse)
-type HandlerDetails struct {
+type HttpHandlerFunc func(request HttpRequest, response *HttpResponse)
+type HttpHandler struct {
 	Method string
-	Func   HandleHttpFunc
+	Func   HttpHandlerFunc
 }
 
 type HttpUrlPath string
-type RouteMapperType map[HttpUrlPath]HandlerDetails
+type RouteMapperType map[HttpUrlPath]HttpHandler
 
 type HttpRequest struct {
 	Method  string

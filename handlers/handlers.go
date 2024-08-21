@@ -9,10 +9,13 @@ func HandleRequest(req []byte, protocol string) *models.Response {
 	if protocol == utils.HTTP {
 		request := ParseHttpRequest(req)
 		response := new(models.HttpResponse)
-		requestHandler := utils.RouteMapper[models.HttpUrlPath(request.UrlPath)]
-		if requestHandler.Method != request.Method {
+		requestHandler, foundUrlPath := utils.RouteMapper[models.HttpUrlPath(request.UrlPath)]
+		if !foundUrlPath {
+			response.StatusCode = 404
+			response.Body = utils.StatusText[404]
+		} else if requestHandler.Method != request.Method {
 			response.StatusCode = 405
-			response.Body = ""
+			response.Body = utils.StatusText[405]
 		} else {
 			requestHandler.Func(*request, response)
 		}
