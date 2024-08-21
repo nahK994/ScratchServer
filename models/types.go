@@ -27,3 +27,8 @@ type HttpResponse struct {
 
 type RespResponse struct {
 }
+
+type Response struct {
+	Http HttpResponse
+	Resp RespResponse
+}

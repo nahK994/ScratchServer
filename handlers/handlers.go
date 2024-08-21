@@ -5,7 +5,7 @@ import (
 	"github.com/nahK994/TCPickle/utils"
 )
 
-func HandleRequest(req []byte, protocol string) (*models.HttpResponse, *models.RespResponse) {
+func HandleRequest(req []byte, protocol string) *models.Response {
 	if protocol == utils.HTTP {
 		request := ParseHttpRequest(req)
 		response := new(models.HttpResponse)
@@ -16,19 +16,21 @@ func HandleRequest(req []byte, protocol string) (*models.HttpResponse, *models.R
 		} else {
 			requestHandler.Func(*request, response)
 		}
-		return response, nil
+		return &models.Response{
+			Http: *response,
+		}
 	} else if protocol == utils.RESP {
 
 	}
 
-	return nil, nil
+	return nil
 }
 
-func HandleResponse(httpRes *models.HttpResponse, respRes *models.RespResponse) string {
-	if httpRes != nil {
-		return HandleHttpResponse(httpRes)
-	} else if respRes != nil {
-		return HandleRespResponse(respRes)
+func HandleResponse(res *models.Response, protocol string) string {
+	if protocol == utils.HTTP {
+		return HandleHttpResponse(&res.Http)
+	} else if protocol == utils.RESP {
+		return HandleRespResponse(&res.Resp)
 	}
 	return ""
 }

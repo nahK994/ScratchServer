@@ -26,8 +26,8 @@ func (p *Peer) readConn(protocol string) {
 		return
 	}
 
-	httpResponse, respResponse := handlers.HandleRequest(buf[:n], protocol)
-	resp := handlers.HandleResponse(httpResponse, respResponse)
+	response := handlers.HandleRequest(buf[:n], protocol)
+	resp := handlers.HandleResponse(response, protocol)
 	p.conn.Write([]byte(resp))
 	p.conn.Close()
 }
