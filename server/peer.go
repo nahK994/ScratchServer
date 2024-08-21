@@ -1,6 +1,7 @@
 package server
 
 import (
+	"fmt"
 	"log/slog"
 	"net"
 
@@ -28,16 +29,23 @@ func (p *Peer) readConn(protocol string) {
 		return
 	}
 
-	request := handlers.HandleRequest(buf[:n])
-	// fmt.Println("Request from", p.conn.RemoteAddr(), " ==>", request)
-	response := new(models.Response)
-	requestHandler := utils.RouteMapper[models.HttpUrlPath(request.UrlPath)]
-	if requestHandler.Method != request.Method {
-		response.StatusCode = 405
-		response.Body = ""
-	} else {
-		requestHandler.Func(*request, response)
+	if protocol == utils.HTTP {
+		request := handlers.HandleHttpRequest(buf[:n])
+		fmt.Println("Request from", p.conn.RemoteAddr(), " ==>", request)
+		response := new(models.Response)
+		requestHandler := utils.RouteMapper[models.HttpUrlPath(request.UrlPath)]
+		if requestHandler.Method != request.Method {
+			response.StatusCode = 405
+			response.Body = ""
+		} else {
+			requestHandler.Func(*request, response)
+		}
+		handlers.HandleHttpResponse(response, p.conn)
+	} else if protocol == utils.RESP {
+
 	}
-	handlers.HandleResponse(response, p.conn)
+
+	// response := handlers.HandleRequest(buf[:n])
+	// handlers.HandleResponse(response, p.conn)
 	p.conn.Close()
 }

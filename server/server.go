@@ -4,24 +4,34 @@ import (
 	"log/slog"
 	"net"
 
-	"github.com/nahK994/TCPickle/models"
 	"github.com/nahK994/TCPickle/utils"
 )
 
-type Server struct {
+type Config struct {
 	listenAddress string
 	ln            net.Listener
 	protocol      string
 }
 
-func Initiate(listenAddress, protocol string) *Server {
-	return &Server{
-		listenAddress: listenAddress,
-		protocol:      protocol,
+func InitiateHttp(listenAddress string) *HttpServer {
+	return &HttpServer{
+		Config{
+			listenAddress: listenAddress,
+			protocol:      utils.HTTP,
+		},
 	}
 }
 
-func (s *Server) acceptConn() error {
+func InitiateResp(listenAddress string) *RespServer {
+	return &RespServer{
+		Config{
+			listenAddress: listenAddress,
+			protocol:      utils.RESP,
+		},
+	}
+}
+
+func (s *Config) acceptConn() error {
 	for {
 		conn, err := s.ln.Accept()
 		if err != nil {
@@ -33,7 +43,7 @@ func (s *Server) acceptConn() error {
 	}
 }
 
-func (s *Server) Start() error {
+func (s *Config) Start() error {
 	ln, err := net.Listen("tcp", s.listenAddress)
 	if err != nil {
 		return err
@@ -45,11 +55,4 @@ func (s *Server) Start() error {
 	slog.Info("server running", "listenAddr", s.listenAddress)
 
 	return s.acceptConn()
-}
-
-func (s *Server) RequestHandler(urlPath models.HttpUrlPath, method string, handler models.HandleHttpFunc) {
-	utils.RouteMapper[urlPath] = models.HandlerDetails{
-		Method: method,
-		Func:   handler,
-	}
 }
