@@ -3,7 +3,6 @@ package handlers
 import (
 	"encoding/json"
 	"fmt"
-	"net"
 	"strings"
 
 	"github.com/nahK994/TCPickle/models"
@@ -30,17 +29,17 @@ func extractResponseBody(body interface{}) (content_type, response_body) {
 	return contentType, responseBody
 }
 
-func HandleHttpRequest(req []byte) *models.Request {
+func ParseHttpRequest(req []byte) *models.HttpRequest {
 	cmdLines := strings.Split(string(req), "\r\n")
 	aa := strings.Split(cmdLines[0], " ")
-	return &models.Request{
+	return &models.HttpRequest{
 		Method:  aa[0],
 		UrlPath: aa[1],
 		Body:    cmdLines[len(cmdLines)-1],
 	}
 }
 
-func HandleHttpResponse(response *models.Response, conn net.Conn) {
+func HandleHttpResponse(response *models.HttpResponse) string {
 	statusCode := response.StatusCode
 	statusText := utils.StatusText[statusCode]
 	contentType, responseBody := extractResponseBody(response.Body)
@@ -55,5 +54,5 @@ func HandleHttpResponse(response *models.Response, conn net.Conn) {
 		statusCode, statusText, contentType, contentLength, responseBody,
 	)
 	// fmt.Println(resp)
-	conn.Write([]byte(resp))
+	return resp
 }

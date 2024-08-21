@@ -10,13 +10,13 @@ import (
 
 func main() {
 	srv := server.InitiateHttp("127.0.0.1:8000")
-	srv.RequestHandler("/post", "POST", func(r models.Request, w *models.Response) {
+	srv.RequestHandler("/post", "POST", func(r models.HttpRequest, w *models.HttpResponse) {
 		fmt.Println("TEST ===>", r.Body)
 		w.StatusCode = 201
 		w.Body = r.Body
 	})
 
-	srv.RequestHandler("/get", "GET", func(r models.Request, w *models.Response) {
+	srv.RequestHandler("/get", "GET", func(r models.HttpRequest, w *models.HttpResponse) {
 		fmt.Println("TEST ===>", r.Body)
 		w.StatusCode = 200
 		w.Body = "Hello World!!"
