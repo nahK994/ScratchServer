@@ -1,5 +1,7 @@
 package models
 
+type RespHandlerFunc func(request RespRequest, response *RespResponse)
+
 type HttpHandlerFunc func(request HttpRequest, response *HttpResponse)
 type HttpHandler struct {
 	Method string
@@ -16,6 +18,7 @@ type HttpRequest struct {
 }
 
 type RespRequest struct {
+	Request string
 }
 
 type ResponseStatusText map[int]string
@@ -26,6 +29,7 @@ type HttpResponse struct {
 }
 
 type RespResponse struct {
+	Response string
 }
 
 type Response struct {

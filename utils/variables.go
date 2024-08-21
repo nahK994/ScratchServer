@@ -2,7 +2,8 @@ package utils
 
 import "github.com/nahK994/TCPickle/models"
 
-var RouteMapper models.RouteMapperType = make(models.RouteMapperType)
+var HttpRouteMapper models.RouteMapperType = make(models.RouteMapperType)
+var RespHandleFunc models.RespHandlerFunc
 
 var StatusText = models.ResponseStatusText{
 	100: "Continue",

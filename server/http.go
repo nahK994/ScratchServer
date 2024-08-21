@@ -10,7 +10,7 @@ type HttpServer struct {
 }
 
 func (s *HttpServer) RequestHandler(urlPath models.HttpUrlPath, method string, handler models.HttpHandlerFunc) {
-	utils.RouteMapper[urlPath] = models.HttpHandler{
+	utils.HttpRouteMapper[urlPath] = models.HttpHandler{
 		Method: method,
 		Func:   handler,
 	}
