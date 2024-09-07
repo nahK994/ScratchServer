@@ -27,7 +27,8 @@ func HandleRequest(msg []byte) *models.Response {
 func HandleResponse(response *models.Response) string {
 	statusCode := response.StatusCode
 	statusText := utils.StatusText[statusCode]
-	contentType, responseBody := extractResponseBody(response.Body)
+	contentType := "application/json"
+	responseBody, _ := response.Body.(string)
 	contentLength := len(responseBody)
 
 	resp := fmt.Sprintf(
