@@ -4,9 +4,9 @@ import (
 	"fmt"
 	"net/http"
 
-	"github.com/nahK994/TCPickle/errors"
-	"github.com/nahK994/TCPickle/models"
-	"github.com/nahK994/TCPickle/utils"
+	"github.com/nahK994/TCPickle/pkg/errors"
+	"github.com/nahK994/TCPickle/pkg/models"
+	"github.com/nahK994/TCPickle/pkg/utils"
 )
 
 func getRequestHandler(urlPath models.HttpUrlPath, req *models.Request) (models.HttpHandlerFunc, error) {

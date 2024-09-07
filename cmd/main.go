@@ -5,8 +5,8 @@ import (
 	"log"
 	"net/http"
 
-	"github.com/nahK994/TCPickle/models"
-	"github.com/nahK994/TCPickle/server"
+	"github.com/nahK994/TCPickle/pkg/models"
+	"github.com/nahK994/TCPickle/pkg/server"
 )
 
 func main() {

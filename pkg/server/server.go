@@ -4,8 +4,8 @@ import (
 	"log/slog"
 	"net"
 
-	"github.com/nahK994/TCPickle/models"
-	"github.com/nahK994/TCPickle/utils"
+	"github.com/nahK994/TCPickle/pkg/models"
+	"github.com/nahK994/TCPickle/pkg/utils"
 )
 
 type Config struct {

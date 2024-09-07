@@ -3,7 +3,7 @@ package handlers
 import (
 	"strings"
 
-	"github.com/nahK994/TCPickle/models"
+	"github.com/nahK994/TCPickle/pkg/models"
 )
 
 func ParseHttpRequest(req []byte) *models.Request {

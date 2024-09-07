@@ -4,7 +4,7 @@ import (
 	"log/slog"
 	"net"
 
-	"github.com/nahK994/TCPickle/handlers"
+	"github.com/nahK994/TCPickle/pkg/handlers"
 )
 
 type Peer struct {
