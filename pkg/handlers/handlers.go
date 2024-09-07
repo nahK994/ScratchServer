@@ -10,14 +10,26 @@ import (
 )
 
 func getRequestHandler(urlPath models.HttpUrlPath, req *models.Request) (models.HttpHandlerFunc, error) {
-	requestHandler, ok := utils.HttpRouteMapper[urlPath]
 	var err error = nil
+	var handleFunc models.HttpHandlerFunc = nil
+
+	requestHandlers, ok := utils.HttpRouteMapper[urlPath]
 	if !ok {
 		err = errors.UrlNotFound{}
-	} else if requestHandler.Method != req.Method {
+	}
+
+	for _, item := range requestHandlers {
+		if req.Method == item.Method {
+			handleFunc = item.Func
+			break
+		}
+	}
+
+	if handleFunc == nil {
 		err = errors.MethodNotAllowed{}
 	}
-	return requestHandler.Func, err
+
+	return handleFunc, err
 }
 
 func handleError(err error, res *models.Response) {

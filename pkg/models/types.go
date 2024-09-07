@@ -7,7 +7,7 @@ type HttpHandler struct {
 }
 
 type HttpUrlPath string
-type RouteMapperType map[HttpUrlPath]HttpHandler
+type RouteMapperType map[HttpUrlPath][]HttpHandler
 
 type Request struct {
 	Method  string

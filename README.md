@@ -26,16 +26,21 @@ After installing the package, you can start the HTTP server locally in your main
 
 ```go
 srv := server.Initiate("127.0.0.1:8000")
-srv.RequestHandler("/post", "POST", func(r models.HttpRequest, w *models.HttpResponse) {
+srv.RequestHandler("/post", http.MethodPost, func(r models.Request, w *models.Response) {
     fmt.Println("TEST ===>", r.Body)
-    w.StatusCode = 201
+    w.StatusCode = http.StatusCreated
     w.Body = r.Body
 })
 
-srv.RequestHandler("/get", "GET", func(r models.HttpRequest, w *models.HttpResponse) {
+srv.RequestHandler("/post", http.MethodGet, func(r models.Request, w *models.Response) {
     fmt.Println("TEST ===>", r.Body)
-    w.StatusCode = 200
+    w.StatusCode = http.StatusOK
     w.Body = "Hello World!!"
+})
+srv.RequestHandler("/get", http.MethodGet, func(r models.Request, w *models.Response) {
+    fmt.Println("TEST ===>", r.Body)
+    w.StatusCode = http.StatusOK
+    w.Body = "Get request -> Hello World!!"
 })
 log.Fatal(srv.Start())
 ```

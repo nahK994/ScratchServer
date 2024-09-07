@@ -46,8 +46,8 @@ func (s *Config) Start() error {
 }
 
 func (s *Config) RequestHandler(urlPath models.HttpUrlPath, method string, handler models.HttpHandlerFunc) {
-	utils.HttpRouteMapper[urlPath] = models.HttpHandler{
+	utils.HttpRouteMapper[urlPath] = append(utils.HttpRouteMapper[urlPath], models.HttpHandler{
 		Method: method,
 		Func:   handler,
-	}
+	})
 }

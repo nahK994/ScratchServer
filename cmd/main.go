@@ -13,14 +13,19 @@ func main() {
 	srv := server.Initiate("127.0.0.1:8000")
 	srv.RequestHandler("/post", http.MethodPost, func(r models.Request, w *models.Response) {
 		fmt.Println("TEST ===>", r.Body)
-		w.StatusCode = 201
+		w.StatusCode = http.StatusCreated
 		w.Body = r.Body
 	})
 
+	srv.RequestHandler("/post", http.MethodGet, func(r models.Request, w *models.Response) {
+		fmt.Println("TEST ===>", r.Body)
+		w.StatusCode = http.StatusOK
+		w.Body = "Hello World!!"
+	})
 	srv.RequestHandler("/get", http.MethodGet, func(r models.Request, w *models.Response) {
 		fmt.Println("TEST ===>", r.Body)
-		w.StatusCode = 200
-		w.Body = "Hello World!!"
+		w.StatusCode = http.StatusOK
+		w.Body = "Get request -> Hello World!!"
 	})
 	log.Fatal(srv.Start())
 }
