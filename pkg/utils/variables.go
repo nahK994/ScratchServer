@@ -1,6 +1,6 @@
 package utils
 
-import "github.com/nahK994/TCPickle/pkg/models"
+import "github.com/nahK994/SimpleServer/pkg/models"
 
 var HttpRouteMapper models.RouteMapperType = make(models.RouteMapperType)
 

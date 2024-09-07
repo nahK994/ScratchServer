@@ -1,3 +1,3 @@
-module github.com/nahK994/TCPickle
+module github.com/nahK994/SimpleServer
 
 go 1.22.4

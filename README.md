@@ -1,16 +1,10 @@
-## TCPickle - A Lightweight TCP Server
+## SimpleHTTP - A Lightweight HTTP Server
 
 Welcome to the **SimpleHTTP** repository! This project is a work in progress and aims to implement a basic HTTP server from scratch using Go.
 
 ### 🚧 Project Status
 
 This project is still in development. Contributions, ideas, and feedback are welcome!
-
-### 🛠️ Features
-
-- Accepts multiple client connections.
-- Handles basic HTTP methods such as GET and POST.
-- Simple error handling and logging.
 
 ### 🚀 Getting Started
 
@@ -25,13 +19,13 @@ To run this project, you'll need:
 You can easily add this package to your Go project by running the following command:
 
 ```go
-go get github.com/nahK994/TCPickle
+go get github.com/nahK994/SimpleServer
 ```
 
 After installing the package, you can start the HTTP server locally in your main.go file with the following code:
 
 ```go
-srv := server.InitiateHttp("127.0.0.1:8000")
+srv := server.Initiate("127.0.0.1:8000")
 srv.RequestHandler("/post", "POST", func(r models.HttpRequest, w *models.HttpResponse) {
     fmt.Println("TEST ===>", r.Body)
     w.StatusCode = 201
@@ -48,20 +42,32 @@ log.Fatal(srv.Start())
 
 You can also check out the complete example in `cmd/main.go`.
 
-### 📂 Project Structure
+### Roadmap: SimpleHTTP
 
-- **`server/`**: Contains the server logic and connection handling.
-- **`handlers/`**: Contains command parsing and handling logic.
-- **`models/`**: Contains structure of data.
-- **`utils`**: Containes the utility varialbles, constants.
+#### Milestone 1: Basic HTTP Server (In Progress)
+- [x] Implement basic HTTP server handling requests (e.g., GET, POST, DELETE, PUT, PATCH).
+- [x] Set up routing system to handle different endpoints (e.g., `/`, `/about`, etc.).
+- [x] Ensure basic error handling (e.g., 404 Not Found, 500 Internal Server Error).
+- [ ] Support static file serving (e.g., HTML, CSS, JavaScript).
+- [ ] Add logging for incoming requests and server responses.
+- [ ] Write unit tests for core functionalities.
 
-### 📈 Roadmap
+#### Milestone 2: Advanced Features (Planned)
+- [ ] Implement middleware support (e.g., for authentication, logging, request modification).
+- [ ] Add support for query parameters and URL parameters.
+- [ ] Implement session management and cookie handling.
+- [ ] Add HTTPS support for secure communication.
+- [ ] Support CORS (Cross-Origin Resource Sharing) for API-based communication.
+- [ ] Provide rate limiting to control the number of requests handled.
 
-- Handle multiple client requests.
-- Handle basic HTTP methods such as GET and POST.
-- Improve error handling.
-- Implement logging enhancements.
-- Add support for secure connections (TLS).
+#### Milestone 3: Optimization and Deployment (Planned)
+- [ ] Optimize server performance and resource usage.
+- [ ] Add support for WebSocket connections.
+- [ ] Add detailed logging and monitoring tools (e.g., request times, error rates).
+- [ ] Create a deployment guide with instructions for Docker and cloud services (e.g., AWS, Heroku).
+- [ ] Provide documentation and examples for users and contributors.
+- [ ] Implement load balancing and horizontal scaling for high traffic environments.
+
 
 ### 🤝 Contributing
 
@@ -73,7 +79,7 @@ We welcome contributions of all kinds! Whether you're fixing bugs, adding new fe
 2. **Clone your forked repository** to your local machine:
 
    ```bash
-   git clone https://github.com/nahK994/TCPickle.git
+   git clone https://github.com/nahK994/SimpleServer.git
    ```
    
 4. **Create a new branch** for your feature or fix:
