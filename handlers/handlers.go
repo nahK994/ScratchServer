@@ -4,24 +4,41 @@ import (
 	"fmt"
 	"net/http"
 
+	"github.com/nahK994/TCPickle/errors"
 	"github.com/nahK994/TCPickle/models"
 	"github.com/nahK994/TCPickle/utils"
 )
 
+func getRequestHandler(urlPath models.HttpUrlPath, req *models.Request) (models.HttpHandlerFunc, error) {
+	requestHandler, ok := utils.HttpRouteMapper[urlPath]
+	var err error = nil
+	if !ok {
+		err = errors.UrlNotFound{}
+	} else if requestHandler.Method != req.Method {
+		err = errors.MethodNotAllowed{}
+	}
+	return requestHandler.Func, err
+}
+
 func HandleRequest(msg []byte) *models.Response {
 	req := ParseHttpRequest(msg)
-	response := new(models.Response)
-	requestHandler, foundUrlPath := utils.HttpRouteMapper[models.HttpUrlPath(req.UrlPath)]
-	if !foundUrlPath {
-		response.StatusCode = http.StatusNotFound
-		response.Body = utils.StatusText[404]
-	} else if requestHandler.Method != req.Method {
-		response.StatusCode = 405
-		response.Body = utils.StatusText[405]
+	res := new(models.Response)
+
+	requestHandler, err := getRequestHandler(models.HttpUrlPath(req.UrlPath), req)
+	if err != nil {
+		switch err.(type) {
+		case errors.UrlNotFound:
+			res.StatusCode = http.StatusNotFound
+			res.Body = err.Error()
+		case errors.MethodNotAllowed:
+			res.StatusCode = http.StatusMethodNotAllowed
+			res.Body = err.Error()
+		}
 	} else {
-		requestHandler.Func(*req, response)
+		requestHandler(*req, res)
 	}
-	return response
+
+	return res
 }
 
 func HandleResponse(response *models.Response) string {
