@@ -3,7 +3,6 @@ package utils
 import "github.com/nahK994/TCPickle/models"
 
 var HttpRouteMapper models.RouteMapperType = make(models.RouteMapperType)
-var RespHandleFunc models.RespHandlerFunc
 
 var StatusText = models.ResponseStatusText{
 	200: "OK",

@@ -1,6 +1,6 @@
 ## TCPickle - A Lightweight TCP Server
 
-Welcome to the **TCPickle** repository! This project is a work in progress and aims to implement a basic TCP server from scratch using Go.
+Welcome to the **SimpleHTTP** repository! This project is a work in progress and aims to implement a basic HTTP server from scratch using Go.
 
 ### 🚧 Project Status
 
@@ -42,16 +42,6 @@ srv.RequestHandler("/get", "GET", func(r models.HttpRequest, w *models.HttpRespo
     fmt.Println("TEST ===>", r.Body)
     w.StatusCode = 200
     w.Body = "Hello World!!"
-})
-log.Fatal(srv.Start())
-```
-
-You can also run RESP server by running following codes:
-
-```go
-srv := server.InitiateResp("127.0.0.1:8000")
-srv.RequestHandler(func(request models.RespRequest, response *models.RespResponse) {
-    response.Response = "+OK\r\n"
 })
 log.Fatal(srv.Start())
 ```

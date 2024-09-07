@@ -29,17 +29,17 @@ func extractResponseBody(body interface{}) (content_type, response_body) {
 	return contentType, responseBody
 }
 
-func ParseHttpRequest(req []byte) *models.HttpRequest {
+func ParseHttpRequest(req []byte) *models.Request {
 	cmdLines := strings.Split(string(req), "\r\n")
 	aa := strings.Split(cmdLines[0], " ")
-	return &models.HttpRequest{
+	return &models.Request{
 		Method:  aa[0],
 		UrlPath: aa[1],
 		Body:    cmdLines[len(cmdLines)-1],
 	}
 }
 
-func HandleHttpResponse(response *models.HttpResponse) string {
+func HandleHttpResponse(response *models.Response) string {
 	statusCode := response.StatusCode
 	statusText := utils.StatusText[statusCode]
 	contentType, responseBody := extractResponseBody(response.Body)

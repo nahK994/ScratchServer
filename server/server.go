@@ -4,30 +4,18 @@ import (
 	"log/slog"
 	"net"
 
+	"github.com/nahK994/TCPickle/models"
 	"github.com/nahK994/TCPickle/utils"
 )
 
 type Config struct {
 	listenAddress string
 	ln            net.Listener
-	protocol      string
 }
 
-func InitiateHttp(listenAddress string) *HttpServer {
-	return &HttpServer{
-		Config{
-			listenAddress: listenAddress,
-			protocol:      utils.HTTP,
-		},
-	}
-}
-
-func InitiateResp(listenAddress string) *RespServer {
-	return &RespServer{
-		Config{
-			listenAddress: listenAddress,
-			protocol:      utils.RESP,
-		},
+func Initiate(listenAddress string) *Config {
+	return &Config{
+		listenAddress: listenAddress,
 	}
 }
 
@@ -39,7 +27,7 @@ func (s *Config) acceptConn() error {
 		}
 
 		peer := NewPeer(conn)
-		go peer.readConn(s.protocol)
+		go peer.readConn()
 	}
 }
 
@@ -55,4 +43,11 @@ func (s *Config) Start() error {
 	slog.Info("server running", "listenAddr", s.listenAddress)
 
 	return s.acceptConn()
+}
+
+func (s *Config) RequestHandler(urlPath models.HttpUrlPath, method string, handler models.HttpHandlerFunc) {
+	utils.HttpRouteMapper[urlPath] = models.HttpHandler{
+		Method: method,
+		Func:   handler,
+	}
 }

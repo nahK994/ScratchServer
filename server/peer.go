@@ -17,7 +17,7 @@ func NewPeer(conn net.Conn) *Peer {
 	}
 }
 
-func (p *Peer) readConn(protocol string) {
+func (p *Peer) readConn() {
 	buf := make([]byte, 1024)
 	n, err := p.conn.Read(buf)
 	if err != nil {
@@ -26,8 +26,8 @@ func (p *Peer) readConn(protocol string) {
 		return
 	}
 
-	response := handlers.HandleRequest(buf[:n], protocol)
-	resp := handlers.HandleResponse(response, protocol)
+	response := handlers.HandleRequest(buf[:n])
+	resp := handlers.HandleResponse(response)
 	p.conn.Write([]byte(resp))
 	p.conn.Close()
 }

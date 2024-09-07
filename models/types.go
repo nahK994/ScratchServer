@@ -1,8 +1,6 @@
 package models
 
-type RespHandlerFunc func(request RespRequest, response *RespResponse)
-
-type HttpHandlerFunc func(request HttpRequest, response *HttpResponse)
+type HttpHandlerFunc func(request Request, response *Response)
 type HttpHandler struct {
 	Method string
 	Func   HttpHandlerFunc
@@ -11,28 +9,19 @@ type HttpHandler struct {
 type HttpUrlPath string
 type RouteMapperType map[HttpUrlPath]HttpHandler
 
-type HttpRequest struct {
+type Request struct {
 	Method  string
 	UrlPath string
 	Body    string
 }
 
-type RespRequest struct {
-	Request string
-}
-
 type ResponseStatusText map[int]string
 
-type HttpResponse struct {
+type Response struct {
 	StatusCode int
 	Body       interface{}
 }
 
 type RespResponse struct {
 	Response string
-}
-
-type Response struct {
-	Http HttpResponse
-	Resp RespResponse
 }
