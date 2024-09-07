@@ -20,20 +20,23 @@ func getRequestHandler(urlPath models.HttpUrlPath, req *models.Request) (models.
 	return requestHandler.Func, err
 }
 
+func handleError(err error, res *models.Response) {
+	switch err.(type) {
+	case errors.UrlNotFound:
+		res.StatusCode = http.StatusNotFound
+	case errors.MethodNotAllowed:
+		res.StatusCode = http.StatusMethodNotAllowed
+	}
+	res.Body = err.Error()
+}
+
 func HandleRequest(msg []byte) *models.Response {
 	req := ParseHttpRequest(msg)
 	res := new(models.Response)
 
 	requestHandler, err := getRequestHandler(models.HttpUrlPath(req.UrlPath), req)
 	if err != nil {
-		switch err.(type) {
-		case errors.UrlNotFound:
-			res.StatusCode = http.StatusNotFound
-			res.Body = err.Error()
-		case errors.MethodNotAllowed:
-			res.StatusCode = http.StatusMethodNotAllowed
-			res.Body = err.Error()
-		}
+		handleError(err, res)
 	} else {
 		requestHandler(*req, res)
 	}
