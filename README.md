@@ -1,6 +1,6 @@
-## SimpleHTTP - A Lightweight HTTP Server
+## TinyHTTP - A Lightweight HTTP Server
 
-Welcome to the **SimpleHTTP** repository! This project is a work in progress and aims to implement a basic HTTP server from scratch using Go.
+Welcome to the **TinyHTTP** repository! This project is a work in progress and aims to implement a basic HTTP server from scratch using Go.
 
 ### 🚧 Project Status
 
@@ -47,7 +47,7 @@ log.Fatal(srv.Start())
 
 You can also check out the complete example in `cmd/main.go`.
 
-### Roadmap: SimpleHTTP
+### Roadmap: TinyHTTP
 
 #### Milestone 1: Basic HTTP Server (In Progress)
 - [x] Implement basic HTTP server handling requests (e.g., GET, POST, DELETE, PUT, PATCH).
@@ -84,7 +84,7 @@ We welcome contributions of all kinds! Whether you're fixing bugs, adding new fe
 2. **Clone your forked repository** to your local machine:
 
    ```bash
-   git clone https://github.com/nahK994/SimpleServer.git
+   git clone https://github.com/nahK994/TinyHTTP.git
    ```
    
 4. **Create a new branch** for your feature or fix:
