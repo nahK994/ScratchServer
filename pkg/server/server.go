@@ -4,7 +4,7 @@ import (
 	"log/slog"
 	"net"
 
-	"github.com/nahK994/SimpleServer/pkg/models"
+	"github.com/nahK994/SimpleServer/pkg/types"
 	"github.com/nahK994/SimpleServer/pkg/utils"
 )
 
@@ -45,8 +45,8 @@ func (s *Config) Start() error {
 	return s.acceptConn()
 }
 
-func (s *Config) RequestHandler(urlPath models.HttpUrlPath, method string, handler models.HttpHandlerFunc) {
-	utils.HttpRouteMapper[urlPath] = append(utils.HttpRouteMapper[urlPath], models.HttpHandler{
+func (s *Config) RequestHandler(urlPath types.HttpUrlPath, method string, handler types.HttpHandlerFunc) {
+	utils.HttpRouteMapper[urlPath] = append(utils.HttpRouteMapper[urlPath], types.HttpHandler{
 		Method: method,
 		Func:   handler,
 	})

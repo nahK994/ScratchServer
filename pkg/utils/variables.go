@@ -1,10 +1,12 @@
 package utils
 
-import "github.com/nahK994/SimpleServer/pkg/models"
+import (
+	"github.com/nahK994/SimpleServer/pkg/types"
+)
 
-var HttpRouteMapper models.RouteMapperType = make(models.RouteMapperType)
+var HttpRouteMapper types.RouteMapperType = make(types.RouteMapperType)
 
-var StatusText = models.ResponseStatusText{
+var StatusText = types.ResponseStatusText{
 	200: "OK",
 	201: "Created",
 	202: "Accepted",

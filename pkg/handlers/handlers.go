@@ -3,15 +3,26 @@ package handlers
 import (
 	"fmt"
 	"net/http"
+	"strings"
 
 	"github.com/nahK994/SimpleServer/pkg/errors"
-	"github.com/nahK994/SimpleServer/pkg/models"
+	"github.com/nahK994/SimpleServer/pkg/types"
 	"github.com/nahK994/SimpleServer/pkg/utils"
 )
 
-func getRequestHandler(urlPath models.HttpUrlPath, req *models.Request) (models.HttpHandlerFunc, error) {
+func parseHttpRequest(req []byte) *types.Request {
+	cmdLines := strings.Split(string(req), "\r\n")
+	aa := strings.Split(cmdLines[0], " ")
+	return &types.Request{
+		Method:  aa[0],
+		UrlPath: aa[1],
+		Body:    cmdLines[len(cmdLines)-1],
+	}
+}
+
+func getRequestHandler(urlPath types.HttpUrlPath, req *types.Request) (types.HttpHandlerFunc, error) {
 	var err error = nil
-	var handleFunc models.HttpHandlerFunc = nil
+	var handleFunc types.HttpHandlerFunc = nil
 
 	requestHandlers, ok := utils.HttpRouteMapper[urlPath]
 	if !ok {
@@ -32,7 +43,7 @@ func getRequestHandler(urlPath models.HttpUrlPath, req *models.Request) (models.
 	return handleFunc, err
 }
 
-func handleError(err error, res *models.Response) {
+func handleError(err error, res *types.Response) {
 	switch err.(type) {
 	case errors.UrlNotFound:
 		res.StatusCode = http.StatusNotFound
@@ -42,11 +53,11 @@ func handleError(err error, res *models.Response) {
 	res.Body = err.Error()
 }
 
-func HandleRequest(msg []byte) *models.Response {
-	req := ParseHttpRequest(msg)
-	res := new(models.Response)
+func HandleRequest(msg []byte) *types.Response {
+	req := parseHttpRequest(msg)
+	res := new(types.Response)
 
-	requestHandler, err := getRequestHandler(models.HttpUrlPath(req.UrlPath), req)
+	requestHandler, err := getRequestHandler(types.HttpUrlPath(req.UrlPath), req)
 	if err != nil {
 		handleError(err, res)
 	} else {
@@ -56,7 +67,7 @@ func HandleRequest(msg []byte) *models.Response {
 	return res
 }
 
-func HandleResponse(response *models.Response) string {
+func HandleResponse(response *types.Response) string {
 	statusCode := response.StatusCode
 	statusText := utils.StatusText[statusCode]
 	contentType := "application/json"
