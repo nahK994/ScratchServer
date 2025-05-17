@@ -5,8 +5,8 @@ import (
 	"log"
 	"net/http"
 
-	"github.com/nahK994/SimpleServer/pkg/server"
-	"github.com/nahK994/SimpleServer/pkg/types"
+	"github.com/nahK994/tiny-http/pkg/server"
+	"github.com/nahK994/tiny-http/pkg/types"
 )
 
 func main() {

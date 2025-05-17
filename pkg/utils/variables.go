@@ -1,7 +1,7 @@
 package utils
 
 import (
-	"github.com/nahK994/SimpleServer/pkg/types"
+	"github.com/nahK994/tiny-http/pkg/types"
 )
 
 var HttpRouteMapper types.RouteMapperType = make(types.RouteMapperType)

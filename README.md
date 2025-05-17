@@ -19,7 +19,7 @@ To run this project, you'll need:
 You can easily add this package to your Go project by running the following command:
 
 ```go
-go get github.com/nahK994/SimpleServer
+go get github.com/nahK994/tiny-http
 ```
 
 After installing the package, you can start the HTTP server locally in your main.go file with the following code:

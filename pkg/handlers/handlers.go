@@ -5,9 +5,9 @@ import (
 	"net/http"
 	"strings"
 
-	"github.com/nahK994/SimpleServer/pkg/errors"
-	"github.com/nahK994/SimpleServer/pkg/types"
-	"github.com/nahK994/SimpleServer/pkg/utils"
+	"github.com/nahK994/tiny-http/pkg/errors"
+	"github.com/nahK994/tiny-http/pkg/types"
+	"github.com/nahK994/tiny-http/pkg/utils"
 )
 
 func parseHttpRequest(req []byte) *types.Request {

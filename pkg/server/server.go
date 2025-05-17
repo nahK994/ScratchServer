@@ -4,8 +4,8 @@ import (
 	"log/slog"
 	"net"
 
-	"github.com/nahK994/SimpleServer/pkg/types"
-	"github.com/nahK994/SimpleServer/pkg/utils"
+	"github.com/nahK994/tiny-http/pkg/types"
+	"github.com/nahK994/tiny-http/pkg/utils"
 )
 
 type Config struct {
